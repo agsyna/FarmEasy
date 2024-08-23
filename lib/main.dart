@@ -11,10 +11,14 @@ Future main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: "Farming made eay"),
+      home: MyHomePage(title: "Farming made easy"),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -50,9 +54,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     Timer(
-        const Duration(seconds: 2),
-        () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (BuildContext context) => const mainPage())));
+        const Duration(seconds: 5),
+        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => const mainPage())));
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -79,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Image.asset(
               "assets/images/logo.png",
-              width: screenWidth * 0.4,
+              width: screenWidth * 0.5,
               height: screenHeight * 0.2,
             ),
             Text(
@@ -87,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(
                 fontFamily: "Impact",
                 fontSize: textScaleFactor * 40,
-                // fontWeight:FontWeight.w900,
+                fontWeight: FontWeight.w900,
                 color: const Color(0xffF5F5F5),
                 letterSpacing: 1,
               ),
