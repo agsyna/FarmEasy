@@ -23,13 +23,15 @@ class ScaleSize {
 
 class _LoginState extends State<Login> {
   //text controllers
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   Future signIn() async {
+
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
-        password: _passwordController.text.trim());
+        password: _passwordController.text.trim()
+        );
   }
 
   @override
@@ -210,7 +212,7 @@ class _LoginState extends State<Login> {
                     ],
                   )),
               SizedBox(
-                height: screenHeight * 0.0491,
+                height: screenHeight * 0.03
               ),
               Image(
                 image: AssetImage(

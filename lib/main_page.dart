@@ -6,17 +6,37 @@ import 'package:smart_irrigation/login.dart';
 class mainPage extends StatelessWidget {
   const mainPage({super.key});
 
+  void showSnackBar(BuildContext context, String text) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Directionality(
+          textDirection: TextDirection.ltr,
+          child: Text(text),
+    ),
+    ),
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<User?>(
+      body: StreamBuilder<User?>
+      (
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            try{
+               if (snapshot.hasData) {
               return const Homepage();
-            } else {
-              return const Login();
+               }
             }
+              catch(e){
+                showSnackBar(context, "Error : $e");
+                return const Login();
+              }
+              return const Login();
+              
+              
+            
           }),
     );
   }
