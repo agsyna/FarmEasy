@@ -24,76 +24,6 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(title: "Farming made eay"),
-      // AnimatedSplashScreen(splash:Container(
-      //   width: screenWidth,
-      //   height: screenHeight,
-      //   decoration: BoxDecoration(
-      //     gradient: LinearGradient(
-      //       colors: [
-      //         Color(0xff9FC784),
-      //         Color(0xff599522),
-      //   ],
-      //   stops: [0,90],
-      //   begin: Alignment.topLeft,
-      //   end: Alignment.bottomRight,)),
-
-      //   child : Column(
-      //     children: [
-
-      //       SizedBox(
-      //         height: 0.3*screenHeight,
-      //       ),
-
-      //       Image.asset(
-      //         "assets/images/logo.png",
-      //         width: screenWidth*0.5,
-      //         height:screenHeight*0.2,
-      //         ),
-
-      //         Text(
-      //           "FARMEASY",
-      //           style: TextStyle(
-      //             fontFamily: "Impact",
-      //             fontSize: textScaleFactor*40,
-      //             // fontWeight:FontWeight.w900,
-      //             color: Color(0xffF5F5F5),
-      //             letterSpacing: 1,
-      //           ),
-      //         ),
-
-      //         Text(
-      //           "Farming Made Easy",
-      //           style: TextStyle(
-      //             fontFamily: "Mulish",
-      //             fontSize: textScaleFactor*20,
-      //             fontWeight:FontWeight.w400,
-      //             color: Color(0xff599522),
-      //             // color: Colors.white
-      //           ),
-      //         ),
-
-      //         SizedBox(
-      //         height: 0.04*screenHeight,
-      //       ),
-
-      //           Align(
-      //             alignment: Alignment.bottomCenter,
-      //             child:
-      //           Image(
-      //             alignment: Alignment.bottomCenter,
-      //             image: AssetImage(
-      //               "assets/images/splashplants.png",
-      //               ),
-
-      //           width: screenWidth,
-      //         ),
-      //           ),
-
-      //     ],
-      //   ),
-
-      //   ),duration: 3000,splashTransition: SplashTransition.slideTransition  , nextScreen: Login()),
-
       debugShowCheckedModeBanner: false,
     );
   }
@@ -120,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     Timer(
-        const Duration(seconds: 5),
+        const Duration(seconds: 2),
         () => Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (BuildContext context) => const mainPage())));
 
@@ -149,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Image.asset(
               "assets/images/logo.png",
-              width: screenWidth * 0.5,
+              width: screenWidth * 0.4,
               height: screenHeight * 0.2,
             ),
             Text(
@@ -191,115 +121,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-////////////////////////////////////////////////////////////////////////////////////
-
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({super.key});
-
-//   @override
-//     State<MyHomePage> createState() => _MyHomePageState();
-// }
-// class ScaleSize {
-//   static double textScaleFactor(BuildContext context,
-//       {double maxTextScaleFactor = 2}) {
-//     final width = MediaQuery.of(context).size.width;
-//     double val = (width / 1400) * maxTextScaleFactor;
-//     return max(1, min(val, maxTextScaleFactor));
-//   }
-//   }
-// class _MyHomePageState extends State<MyHomePage> {
-
-//   @override
-//   void initState() {
-//   super.initState();
-//   // _navigatetohome();
-//   }
-
-//   _navigatetohome() async {
-//     await Future.delayed(Duration(milliseconds: 1500), () {});
-//     Navigator.pushReplacement(
-//         context, MaterialPageRoute(builder: (context) => Login()));
-//   }
-//   Widget build(BuildContext context) {
-//     double screenWidth = MediaQuery.of(context).size.width;
-//     double screenHeight = MediaQuery.of(context).size.height;
-//     double textScaleFactor = ScaleSize.textScaleFactor(context);
-
-//     return Scaffold(
-//       body:
-//       Container(
-//         width: screenWidth,
-//         height: screenHeight,
-//         decoration: BoxDecoration(
-//           gradient: LinearGradient(
-//             colors: [
-//               Color(0xff9FC784),
-//               Color(0xff599522),
-//         ],
-//         stops: [0,90],
-//         begin: Alignment.topLeft,
-//         end: Alignment.bottomRight,)),
-
-//         child : Column(
-//           children: [
-
-//             SizedBox(
-//               height: 0.3*screenHeight,
-//             ),
-
-//             Image.asset(
-//               "assets/images/logo.png",
-//               width: screenWidth*0.5,
-//               height:screenHeight*0.2,
-//               ),
-
-//               Text(
-//                 "FARMEASY",
-//                 style: TextStyle(
-//                   fontFamily: "Impact",
-//                   fontSize: textScaleFactor*40,
-//                   // fontWeight:FontWeight.w900,
-//                   color: Color(0xffF5F5F5),
-//                   letterSpacing: 1,
-//                 ),
-//               ),
-
-//               Text(
-//                 "Farming Made Easy",
-//                 style: TextStyle(
-//                   fontFamily: "Mulish",
-//                   fontSize: textScaleFactor*20,
-//                   fontWeight:FontWeight.w400,
-//                   color: Color(0xff599522),
-//                   // color: Colors.white
-//                 ),
-//               ),
-
-//               SizedBox(
-//               height: 0.04*screenHeight,
-//             ),
-
-//                 Align(
-//                   alignment: Alignment.bottomCenter,
-//                   child:
-//                 Image(
-//                   alignment: Alignment.bottomCenter,
-//                   image: AssetImage(
-//                     "assets/images/splashplants.png",
-//                     ),
-
-//                 width: screenWidth,
-//               ),
-//                 ),
-
-//           ],
-//         ),
-
-//         ),
-
-//       );
-
-//   }
-
-// }
