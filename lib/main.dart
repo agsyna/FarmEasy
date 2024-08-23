@@ -11,14 +11,10 @@ Future main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,7 +23,7 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyHomePage(title: "Farming made easy"),
+      home: const MyHomePage(title: "Farming made eay"),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -54,9 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     Timer(
-        const Duration(seconds: 5),
-        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const mainPage())));
+        const Duration(seconds: 2),
+        () => Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (BuildContext context) => const mainPage())));
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -83,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Image.asset(
               "assets/images/logo.png",
-              width: screenWidth * 0.5,
+              width: screenWidth * 0.4,
               height: screenHeight * 0.2,
             ),
             Text(
@@ -91,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(
                 fontFamily: "Impact",
                 fontSize: textScaleFactor * 40,
-                fontWeight: FontWeight.w900,
+                // fontWeight:FontWeight.w900,
                 color: const Color(0xffF5F5F5),
                 letterSpacing: 1,
               ),
