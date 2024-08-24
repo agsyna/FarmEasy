@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             SizedBox(
-              height: 0.04 * screenHeight,
+              height: 0.07 * screenHeight,
             ),
             Align(
               alignment: Alignment.bottomCenter,

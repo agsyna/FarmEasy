@@ -27,11 +27,9 @@ class _LoginState extends State<Login> {
   TextEditingController _passwordController = TextEditingController();
 
   Future signIn() async {
-
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
-        password: _passwordController.text.trim()
-        );
+        password: _passwordController.text.trim());
   }
 
   @override
@@ -211,9 +209,7 @@ class _LoginState extends State<Login> {
                               ))),
                     ],
                   )),
-              SizedBox(
-                height: screenHeight * 0.03
-              ),
+              SizedBox(height: screenHeight * 0.05),
               Image(
                 image: AssetImage(
                   "assets/images/loginfarmer2.png",

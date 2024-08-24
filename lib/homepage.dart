@@ -43,7 +43,6 @@ class _HomepageState extends State<Homepage> {
                 SizedBox(
                   width: 0.04 * screenWidth,
                 ),
-
                 FloatingActionButton.small(
                   shape: CircleBorder(),
                   child: Icon(
@@ -67,9 +66,6 @@ class _HomepageState extends State<Homepage> {
                   ),
                   color: Color(0xff79B343),
                 ),
-                //   SizedBox(
-                //   width: 0.04*screenWidth,
-                // ),
               ],
             ),
             SizedBox(
