@@ -14,7 +14,7 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   final user = FirebaseAuth.instance.currentUser!;
-
+  GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -22,6 +22,78 @@ class _HomepageState extends State<Homepage> {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
 
     return Scaffold(
+      key: _globalKey,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            SizedBox(
+              height: 60,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: screenWidth * 0.07,
+                ),
+                Container(
+                  child: IconButton(
+                      iconSize: screenHeight * 0.09,
+                      onPressed: () {},
+                      icon: Icon(Icons.person)),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(200),
+                      color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  "Akash.....",
+                  style: TextStyle(
+                    // fontFamily: "Impact",
+                    fontSize: textScaleFactor * 20,
+                    // fontWeight:FontWeight.w900,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ],
+            ),
+            Divider(
+              color: Colors.grey,
+              height: 60,
+              thickness: 3,
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profile'),
+              onTap: () {
+                // Handle navigation to Profile
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+              onTap: () {
+                // Handle navigation to Settings
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+              },
+            ),
+          ],
+        ),
+      ),
       body: Container(
         height: screenHeight,
         width: screenWidth,
@@ -43,15 +115,19 @@ class _HomepageState extends State<Homepage> {
                 SizedBox(
                   width: 0.04 * screenWidth,
                 ),
-                FloatingActionButton.small(
-                  shape: CircleBorder(),
-                  child: Icon(
-                    Icons.person_2_outlined,
-                    size: textScaleFactor * 28,
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xff79B343),
+                    borderRadius: BorderRadius.circular(200),
                   ),
-                  backgroundColor: Color(0xff79B343),
-                  foregroundColor: Color(0xffEDF5F4),
-                  onPressed: () {},
+                  child: IconButton(
+                    icon: Icon(Icons.person_2_outlined),
+                    iconSize: textScaleFactor * 30,
+                    color: Color(0xffEDF5F4),
+                    onPressed: () {
+                      _globalKey.currentState!.openDrawer();
+                    },
+                  ),
                 ),
                 SizedBox(
                   width: 0.68 * screenWidth,
