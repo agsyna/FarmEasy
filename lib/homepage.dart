@@ -265,7 +265,17 @@ class _HomepageState extends State<Homepage> {
                               ),
                             ),
                             SizedBox(height: 8),
-                            _location(),
+                            // Text(_weather?.areaName ?? "",
+                            //     style: TextStyle(
+                            //       color: Color(0xFF515251),
+                            //       fontSize: 16,
+                            //     )),
+                            // _location(),
+                            Text("Gurugram",
+                                style: TextStyle(
+                                  color: Color(0xFF515251),
+                                  fontSize: 16,
+                                )),
                             SizedBox(height: 16),
                             Row(
                               children: [
