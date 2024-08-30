@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
+import 'package:smart_irrigation/const.dart';
+import 'package:weather/weather.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -14,8 +17,80 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   final user = FirebaseAuth.instance.currentUser!;
+  late String _currentTime;
+  final WeatherFactory wf = WeatherFactory(API_KEY);
+  Weather? _weather;
   GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+
+  Widget customButton({
+    required VoidCallback onPressed,
+    required String imagePath,
+    required String buttonText,
+    required double screenHeight,
+    required double screenWidth,
+    required double textScaleFactor,
+  }) {
+    return Container(
+      height: 0.168 * screenHeight,
+      width: 0.378 * screenWidth,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: const Color.fromARGB(50, 97, 92, 75),
+          width: 3,
+        ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(38, 255, 255, 255),
+          foregroundColor: const Color.fromARGB(76, 255, 255, 255),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+                20), // Ensure the button shape matches the container
+          ),
+        ),
+        onPressed: onPressed,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: screenWidth * 0.16,
+              height: screenHeight * 0.12,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(imagePath),
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            Text(
+              buttonText,
+              style: TextStyle(
+                fontSize: 16 * textScaleFactor,
+                color: const Color(0xff5C7744),
+                fontWeight: FontWeight.w700,
+                fontFamily: "Outfit",
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
+  void initState() {
+    super.initState();
+    wf.currentWeatherByLocation(3.457523, 77.026344).then((w) {
+      setState(() {
+        _weather = w;
+        DateTime _currentTime = DateTime.now();
+      });
+    });
+  }
+
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -145,25 +220,103 @@ class _HomepageState extends State<Homepage> {
               ],
             ),
             SizedBox(
-              height: screenHeight * 0.008,
+              height: screenHeight * 0.048,
             ),
-            Container(
-              height: screenHeight * 0.276,
-              width: screenWidth * 0.88,
-              // color: Colors.amber,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                gradient: LinearGradient(colors: [
-                  // Colors.amber,
-                  Color.fromRGBO(255, 255, 255, 150),
-                  Color.fromRGBO(255, 255, 255, 100),
-                  Color.fromRGBO(255, 255, 255, 50),
-                ], stops: [
-                  0,
-                  50,
-                  75
-                ]),
-              ),
+            GestureDetector(
+              onTap: okay,
+              child: Container(
+                  height: screenHeight * 0.24,
+                  width: screenWidth * 0.88,
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: LinearGradient(colors: [
+                      const Color.fromRGBO(176, 190, 197, 1),
+                      const Color.fromARGB(255, 135, 161, 173),
+                      const Color.fromARGB(255, 121, 125, 153),
+                    ], stops: [
+                      0,
+                      50,
+                      75
+                    ]),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 10,
+                        spreadRadius: 5,
+                        offset: Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'WEATHER STATION',
+                              style: TextStyle(
+                                color: Color(0xFF7A7B7A),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            _location(),
+                            SizedBox(height: 16),
+                            Row(
+                              children: [
+                                weather_icon(_weather!.weatherConditionCode!)
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      VerticalDivider(
+                        color: Colors.white,
+                        thickness: 1,
+                        width: 40,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _datetimeInfo(),
+                            SizedBox(height: 4),
+                            Text(
+                              _weather?.weatherDescription ?? "",
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              "${_weather?.temperature?.celsius?.toStringAsFixed(0)}°",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              "${_weather?.temperature?.fahrenheit?.toStringAsFixed(1)}°F",
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )),
             ),
             SizedBox(
               height: screenHeight * 0.052,
@@ -177,116 +330,20 @@ class _HomepageState extends State<Homepage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Container(
-                          height: 0.188 * screenHeight,
-                          width: 0.378 * screenWidth,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Color.fromARGB(50, 97, 92, 75),
-                                width: 3),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          // alignment: Alignment.centerLeft,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(38, 255, 255, 255),
-                              foregroundColor:
-                                  Color.fromARGB(76, 255, 255, 255),
-                              elevation: 0,
-
-                              // minimumSize:
-                              //     Size(double.infinity, double.infinity),
-                              shape: RoundedRectangleBorder(),
-                            ),
-                            onPressed: okay,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // SizedBox(
-                                //   height: screenHeight*0.020,
-
-                                // ),
-                                Container(
-                                  width: screenWidth * 0.16,
-                                  height: screenHeight * 0.12,
-                                  decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                    image: AssetImage(
-                                      "assets/icons/soilinfo.png",
-                                    ),
-                                    fit: BoxFit.contain,
-                                  )),
-                                ),
-                                Text(
-                                  "Soil Info",
-                                  style: TextStyle(
-                                    fontSize: 16 * textScaleFactor,
-                                    color: Color(0xff5C7744),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "Outfit",
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 0.188 * screenHeight,
-                          width: 0.378 * screenWidth,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Color.fromARGB(50, 97, 92, 75),
-                                width: 3),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          // alignment: Alignment.centerLeft,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(38, 255, 255, 255),
-                              foregroundColor:
-                                  Color.fromARGB(76, 255, 255, 255),
-                              elevation: 0,
-
-                              // minimumSize:
-                              //     Size(double.infinity, double.infinity),
-                              shape: RoundedRectangleBorder(),
-                            ),
-                            onPressed: okay,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // SizedBox(
-                                //   height: screenHeight*0.020,
-
-                                // ),
-                                Container(
-                                  width: screenWidth * 0.16,
-                                  height: screenHeight * 0.12,
-                                  decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                    image: AssetImage(
-                                      "assets/icons/kakaji.png",
-                                    ),
-                                    fit: BoxFit.contain,
-                                  )),
-                                ),
-                                Text(
-                                  "Kaka Ji",
-                                  style: TextStyle(
-                                    fontSize: 16 * textScaleFactor,
-                                    color: Color(0xff5C7744),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "Outfit",
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        customButton(
+                            onPressed: () {},
+                            imagePath: "assets/icons/soilinfo.png",
+                            buttonText: "Soil Info",
+                            screenHeight: screenHeight,
+                            screenWidth: screenWidth,
+                            textScaleFactor: textScaleFactor),
+                        customButton(
+                            onPressed: () {},
+                            imagePath: "assets/icons/kakaji.png",
+                            buttonText: "Kaka Ji",
+                            screenHeight: screenHeight,
+                            screenWidth: screenWidth,
+                            textScaleFactor: textScaleFactor),
                       ],
                     ),
                     SizedBox(
@@ -295,116 +352,20 @@ class _HomepageState extends State<Homepage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Container(
-                          height: 0.188 * screenHeight,
-                          width: 0.378 * screenWidth,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Color.fromARGB(50, 97, 92, 75),
-                                width: 3),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          // alignment: Alignment.centerLeft,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(38, 255, 255, 255),
-                              foregroundColor:
-                                  Color.fromARGB(76, 255, 255, 255),
-                              elevation: 0,
-
-                              // minimumSize:
-                              //     Size(double.infinity, double.infinity),
-                              shape: RoundedRectangleBorder(),
-                            ),
-                            onPressed: okay,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // SizedBox(
-                                //   height: screenHeight*0.020,
-
-                                // ),
-                                Container(
-                                  width: screenWidth * 0.16,
-                                  height: screenHeight * 0.12,
-                                  decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                    image: AssetImage(
-                                      "assets/icons/irrigation.png",
-                                    ),
-                                    fit: BoxFit.contain,
-                                  )),
-                                ),
-                                Text(
-                                  "Irrigation",
-                                  style: TextStyle(
-                                    fontSize: 16 * textScaleFactor,
-                                    color: Color(0xff5C7744),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "Outfit",
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 0.188 * screenHeight,
-                          width: 0.378 * screenWidth,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Color.fromARGB(50, 97, 92, 75),
-                                width: 3),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          // alignment: Alignment.centerLeft,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(38, 255, 255, 255),
-                              foregroundColor:
-                                  Color.fromARGB(76, 255, 255, 255),
-                              elevation: 0,
-
-                              // minimumSize:
-                              //     Size(double.infinity, double.infinity),
-                              shape: RoundedRectangleBorder(),
-                            ),
-                            onPressed: okay,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // SizedBox(
-                                //   height: screenHeight*0.020,
-
-                                // ),
-                                Container(
-                                  width: screenWidth * 0.16,
-                                  height: screenHeight * 0.12,
-                                  decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                    image: AssetImage(
-                                      "assets/icons/faqs.png",
-                                    ),
-                                    fit: BoxFit.contain,
-                                  )),
-                                ),
-                                Text(
-                                  "FAQS",
-                                  style: TextStyle(
-                                    fontSize: 16 * textScaleFactor,
-                                    color: Color(0xff5C7744),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "Outfit",
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        customButton(
+                            onPressed: () {},
+                            imagePath: "assets/icons/irrigation.png",
+                            buttonText: "Irrigation",
+                            screenHeight: screenHeight,
+                            screenWidth: screenWidth,
+                            textScaleFactor: textScaleFactor),
+                        customButton(
+                            onPressed: () {},
+                            imagePath: "assets/icons/faqs.png",
+                            buttonText: "FAQS",
+                            screenHeight: screenHeight,
+                            screenWidth: screenWidth,
+                            textScaleFactor: textScaleFactor),
                       ],
                     ),
                   ],
@@ -415,7 +376,87 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  void okay() {}
+  void okay() {
+    print("okay");
+  }
+
+  Widget _location() {
+    return Text(_weather?.areaName ?? "",
+        style: TextStyle(
+          color: Color(0xFF515251),
+          fontSize: 16,
+        ));
+  }
+
+  Widget _datetimeInfo() {
+    DateTime now = _weather?.date ?? DateTime.now();
+    return Text(DateFormat("EEEE").format(now),
+        style: TextStyle(
+          color: Colors.black54,
+          fontSize: 14,
+        ));
+  }
+
+  Widget weather_icon(int code) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    if (code > 200 && code <= 300) {
+      return Image.asset(
+        'assets/weather_images/thunder_storm.png', // replace with your asset path
+        width: screenWidth * 0.3,
+        height: screenHeight * 0.12,
+      );
+    } else if (code > 300 && code <= 400) {
+      return Image.asset(
+        'assets/weather_images/drizzling.png', // replace with your asset path
+        width: screenWidth * 0.3,
+        height: screenHeight * 0.12,
+      );
+    } else if (code > 500 && code <= 600) {
+      return Image.asset(
+        'assets/weather_images/raining.png', // replace with your asset path
+        width: screenWidth * 0.3,
+        height: screenHeight * 0.12,
+      );
+    } else if (code > 700 && code < 800) {
+      return Image.asset(
+        'assets/weather_images/mist.png', // replace with your asset path
+        width: screenWidth * 0.3,
+        height: screenHeight * 0.12,
+      );
+    } else if (code == 800) {
+      return Image.asset(
+        'assets/weather_images/sunny.png', // replace with your asset path
+        width: screenWidth * 0.3,
+        height: screenHeight * 0.12,
+      );
+    } else if (code > 800 && code <= 884) {
+      return Image.asset(
+        'assets/weather_images/cloudy.png', // replace with your asset path
+        width: screenWidth * 0.3,
+        height: screenHeight * 0.12,
+      );
+    } else if (code == 800 && int.parse(_currentTime) > 18) {
+      return Image.asset(
+        'assets/weather_images/sunny.png', // replace with your asset path
+        width: screenWidth * 0.3,
+        height: screenHeight * 0.12,
+      );
+    } else if (code > 800 && code <= 884 && int.parse(_currentTime) > 18) {
+      return Image.asset(
+        'assets/weather_images/cloudy.png', // replace with your asset path
+        width: screenWidth * 0.3,
+        height: screenHeight * 0.12,
+      );
+    } else {
+      return Image.asset(
+        'assets/weather_images/cloudy.png', // replace with your asset path
+        width: screenWidth * 0.3,
+        height: screenHeight * 0.12,
+      );
+    }
+  }
 }
 
 class ScaleSize {

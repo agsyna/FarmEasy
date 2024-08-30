@@ -39,6 +39,10 @@ dependencies:
   firebase_core: 2.24.2
   animated_splash_screen:
   firebase_auth:
+  geolocator:
+  weather:
+  intl:
+  toastification:
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +70,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/weather_images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
