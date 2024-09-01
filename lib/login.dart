@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,17 @@ class Login extends StatefulWidget {
 
   @override
   State<Login> createState() => _LoginState();
+}
+
+void showSnackBar(BuildContext context, String text) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Text(text),
+      ),
+    ),
+  );
 }
 
 class ScaleSize {
@@ -26,23 +38,37 @@ class _LoginState extends State<Login> {
   TextEditingController _passwordController = TextEditingController();
 
   Future signIn() async {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
-
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        
-      }else if (e.code == 'wrong-password') {
-        
+      if (e.code == 'network-request-failed') {
+        showSnackBar(context, 'No Internet Connection');
+        //devtools.log('No Internet Connection');
+      } else if (e.code == "wrong-password") {
+        return showSnackBar(context, 'Please enter correct password');
+        //devtools.log('Please Enter correct password');
+        //print('Please Enter correct password');
+      } else if (e.code == 'user-not-found') {
+        showSnackBar(context, 'Email not found');
+        // print('Email not found');
+      } else if (e.code == 'too-many-requests') {
+        return showSnackBar(context, 'Too many attempts please try later');
+        //print('Too many attempts please try later');
+      } else if (e.code == 'invalid-credential') {
+        return showSnackBar(context, 'Please enter correct password');
+        //print('Email and password field are required');
+      } else if (e.code == 'unknown') {
+        return showSnackBar(context, 'Email Not Registered');
+        //print(e.code);
+      } 
+      else if (e.code == 'invalid-email') {
+        return showSnackBar(context, 'Please enter correct email address');
+        //print(e.code);
+      } else {
+        showSnackBar(context, 'User Not Registered');
+        return print(e.code);
       }
     }
 
@@ -83,7 +109,7 @@ class _LoginState extends State<Login> {
               ),
               Container(
                   width: screenWidth * 0.9,
-                  height: screenHeight * 0.5,
+                  height: screenHeight * 0.48,
                   decoration: BoxDecoration(
                     color: Color.fromARGB(140, 217, 217, 217),
                     borderRadius: BorderRadius.circular(13),
@@ -226,7 +252,7 @@ class _LoginState extends State<Login> {
                               ))),
                     ],
                   )),
-              SizedBox(height: screenHeight * 0.0455),
+              SizedBox(height: screenHeight * 0.04),
               Image(
                 image: AssetImage(
                   "assets/images/loginfarmer2.png",
