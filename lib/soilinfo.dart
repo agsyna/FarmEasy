@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-
 class SoilInfo extends StatefulWidget {
   const SoilInfo({super.key});
 
@@ -21,20 +20,18 @@ void showSnackBar(BuildContext context, String text) {
     ),
   );
 }
-void readData() {
- 
- 
-  print("check1");
-  DatabaseReference ref = FirebaseDatabase.instance.ref("Living Room");
-  print(ref);
-ref.onValue.listen((DatabaseEvent event) {
 
-  if (event.snapshot.exists) {
-  print("check2");
-    final data = event.snapshot.value as Map<dynamic, dynamic>;
-    print("data : $data");
-  
-  final heatIndex = data['heatindex']['value'];
+void readData() {
+  print("check1");
+  DatabaseReference ref = FirebaseDatabase.instance.ref("users/123");
+  print(ref);
+  ref.onValue.listen((DatabaseEvent event) {
+    if (event.snapshot.exists) {
+      print("check2");
+      final data = event.snapshot.value as Map<dynamic, dynamic>;
+      print("data : $data");
+
+      final heatIndex = data['heatindex']['value'];
       final humidity = data['humidity']['value'];
       final moisture = data['moisture']['value'];
       final temp = data['temp']['value'];
@@ -46,22 +43,20 @@ ref.onValue.listen((DatabaseEvent event) {
     } else {
       print("No data available.");
     }
-});
+  });
 }
-void writeData() async {
- 
- DatabaseReference ref = FirebaseDatabase.instance.ref("users/123");
- print("check3");
 
-await ref.set({
-  "heatindex": 23,
-  "humidity": 18,
-  "mositure": 23,
-  "temp":45,
-});
+void writeData() async {
+  DatabaseReference ref = FirebaseDatabase.instance.ref("users/124");
+  print("check3");
+
+  await ref.set({
+    "heatindex": 23,
+    "humidity": 18,
+    "mositure": 23,
+    "temp": 45,
+  });
 }
-  
-  
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,7 +65,6 @@ void main() async {
 }
 
 TextEditingController _soilinfo = TextEditingController();
-
 
 class ScaleSize {
   static double textScaleFactor(BuildContext context,
@@ -82,8 +76,6 @@ class ScaleSize {
 }
 
 class _SoilInfoState extends State<SoilInfo> {
-
-
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -234,8 +226,7 @@ class _SoilInfoState extends State<SoilInfo> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: ElevatedButton(
-                              onPressed: ()
-                              {
+                              onPressed: () {
                                 writeData();
                                 readData();
                               },

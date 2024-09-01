@@ -346,8 +346,7 @@ class _HomepageState extends State<Homepage> {
                             SizedBox(height: 0.01 * screenHeight),
                             Row(
                               children: [
-                                weather_icon(_weather!.weatherConditionCode!),
-                              
+                                // weather_icon(_weather!.weatherConditionCode!),
                               ],
                             ),
                           ],
@@ -412,8 +411,10 @@ class _HomepageState extends State<Homepage> {
                       children: [
                         customButton(
                             onPressed: () {
-                              Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const SoilInfo()));
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const SoilInfo()));
                             },
                             imagePath: "assets/icons/soilinfo.png",
                             buttonText: "Soil Info",

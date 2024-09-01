@@ -2,7 +2,8 @@
   "project_info": {
     "project_number": "889487711594",
     "project_id": "smart-irrigation-fcb24",
-    "storage_bucket": "smart-irrigation-fcb24.appspot.com"
+    "storage_bucket": "smart-irrigation-fcb24.appspot.com",
+    "firebase_url":"https://smart-irrigation-fcb24-default-rtdb.asia-southeast1.firebasedatabase.app"
   },
   "client": [
     {
