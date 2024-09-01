@@ -16,13 +16,13 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  String _currentTime="";
+  String _currentTime = "";
   final user = FirebaseAuth.instance.currentUser!;
   final WeatherFactory wf = WeatherFactory(API_KEY);
   Weather? _weather;
-  int hour=0;
-  int minute=0;
-  String time='';
+  int hour = 0;
+  int minute = 0;
+  String time = '';
   GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
 
   Widget customButton({
@@ -59,7 +59,7 @@ class _HomepageState extends State<Homepage> {
           children: [
             Container(
               width: screenWidth * 0.16,
-              height: screenHeight * 0.12,
+              height: screenHeight * 0.10,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(imagePath),
@@ -90,10 +90,10 @@ class _HomepageState extends State<Homepage> {
       setState(() {
         _weather = w;
         DateTime _currentTime = DateTime.now();
-        hour=_currentTime.hour;
-    minute=_currentTime.minute;
-    time="$hour:$minute";
-    print("now : $hour:$minute");
+        hour = _currentTime.hour;
+        minute = _currentTime.minute;
+        time = "$hour:$minute";
+        print("now : $hour:$minute");
       });
     });
   }
@@ -106,20 +106,20 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       key: _globalKey,
       drawer: Drawer(
-        width: 0.55*screenWidth,
+        width: 0.55 * screenWidth,
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             SizedBox(
-              height: 0.08*screenHeight,
+              height: 0.08 * screenHeight,
             ),
             Row(
               children: [
                 SizedBox(
                   width: screenWidth * 0.06,
                 ),
-                 Container(
+                Container(
                   decoration: BoxDecoration(
                     color: Color(0xff79B343),
                     borderRadius: BorderRadius.circular(200),
@@ -134,14 +134,14 @@ class _HomepageState extends State<Homepage> {
                   ),
                 ),
                 SizedBox(
-                  width: 0.05*screenWidth,
+                  width: 0.05 * screenWidth,
                 ),
                 Text(
-                  "Akash",
+                  "Akash...",
                   style: TextStyle(
                     fontFamily: "Outfit",
                     fontSize: textScaleFactor * 20,
-                    fontWeight:FontWeight.w600,
+                    fontWeight: FontWeight.w600,
                     letterSpacing: 1,
                   ),
                 ),
@@ -149,82 +149,84 @@ class _HomepageState extends State<Homepage> {
             ),
             Divider(
               color: const Color.fromRGBO(158, 158, 158, 0.8),
-              height: 0.1*screenHeight,
+              height: 0.1 * screenHeight,
               thickness: 2.5,
             ),
             SizedBox(
-                  width: screenWidth * 0.8,
-                ),
+              width: screenWidth * 0.8,
+            ),
             ListTile(
-              leading: 
-              Icon(Icons.home,
-              size: textScaleFactor * 30,
-                    color: Colors.green[300],
-
+              leading: Icon(
+                Icons.home,
+                size: textScaleFactor * 30,
+                color: Colors.green[300],
               ),
               title: Text(
                 'Home',
-              style: TextStyle(
-                 fontFamily: "Outfit",
-                    fontSize: textScaleFactor * 16,
-                    fontWeight:FontWeight.w600,
-                    letterSpacing: 1,
-                  
-
-              ),),
+                style: TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: textScaleFactor * 16,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1,
+                ),
+              ),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.person,
-              size: textScaleFactor * 30,
-                    color: Colors.green[300],
-                    ),
-              title: Text('Profile',
-               style: TextStyle(
-                 fontFamily: "Outfit",
-                    fontSize: textScaleFactor * 16,
-                    fontWeight:FontWeight.w600,
-                    letterSpacing: 1,
-                  
-
-              ),),
+              leading: Icon(
+                Icons.person,
+                size: textScaleFactor * 30,
+                color: Colors.green[300],
+              ),
+              title: Text(
+                'Profile',
+                style: TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: textScaleFactor * 16,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1,
+                ),
+              ),
               onTap: () {
                 // Handle navigation to Profile
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings,
-              size: textScaleFactor * 30,
-                    color: Colors.green[300],),
-              title: Text('Settings',
-               style: TextStyle(
-                 fontFamily: "Outfit",
-                    fontSize: textScaleFactor * 16,
-                    fontWeight:FontWeight.w600,
-                    letterSpacing: 1,
-                  
-
+              leading: Icon(
+                Icons.settings,
+                size: textScaleFactor * 30,
+                color: Colors.green[300],
               ),
+              title: Text(
+                'Settings',
+                style: TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: textScaleFactor * 16,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1,
+                ),
               ),
               onTap: () {
                 // Handle navigation to Settings
               },
             ),
             ListTile(
-              leading: Icon(Icons.logout,
-              size: textScaleFactor * 30,
-                    color: Colors.green[300],),
-              title: Text('Logout',
-               style: TextStyle(
-                 fontFamily: "Outfit",
-                    fontSize: textScaleFactor * 16,
-                    fontWeight:FontWeight.w600,
-                    letterSpacing: 1,
-                  
-
-              ),),
+              leading: Icon(
+                Icons.logout,
+                size: textScaleFactor * 30,
+                color: Colors.green[300],
+              ),
+              title: Text(
+                'Logout',
+                style: TextStyle(
+                  fontFamily: "Outfit",
+                  fontSize: textScaleFactor * 16,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1,
+                ),
+              ),
               onTap: () {
                 FirebaseAuth.instance.signOut();
               },
@@ -296,7 +298,6 @@ class _HomepageState extends State<Homepage> {
                     gradient: LinearGradient(colors: [
                       Color.fromARGB(255, 224, 228, 229),
                       Colors.white70
-                     
                     ], stops: [
                       0,
                       50
@@ -323,13 +324,11 @@ class _HomepageState extends State<Homepage> {
                               style: TextStyle(
                                 color: Color(0xFF7A7B7A),
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16*textScaleFactor,
+                                fontSize: 18 * textScaleFactor,
                                 fontFamily: 'Outfit',
                               ),
                             ),
-                            SizedBox(
-                              height: 0.01*screenHeight
-                              ),
+                            SizedBox(height: 0.01 * screenHeight),
                             // Text(_weather?.areaName ?? "",
                             //     style: TextStyle(
                             //       color: Color(0xFF515251),
@@ -339,17 +338,14 @@ class _HomepageState extends State<Homepage> {
                             Text("Gurugram",
                                 style: TextStyle(
                                   color: Color(0xFF515251),
-                                  fontSize: 16*textScaleFactor,
+                                  fontSize: 18 * textScaleFactor,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Outfit',
-                                )
-                                ),
-                            SizedBox(height: 0.01*screenHeight),
+                                )),
+                            SizedBox(height: 0.01 * screenHeight),
                             Row(
                               children: [
-                                weather_icon(
-                                  _weather!.weatherConditionCode!
-                                  ),
+                                weather_icon(_weather!.weatherConditionCode!),
                               ],
                             ),
                           ],
@@ -358,7 +354,7 @@ class _HomepageState extends State<Homepage> {
                       VerticalDivider(
                         color: Colors.green[300],
                         thickness: 1,
-                        width: 0.08*screenWidth,
+                        width: 0.08 * screenWidth,
                       ),
                       Expanded(
                         flex: 1,
@@ -367,33 +363,31 @@ class _HomepageState extends State<Homepage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             _datetimeInfo(),
-                            SizedBox(
-                              height: 0.005*screenHeight
-                            ),
+                            SizedBox(height: 0.005 * screenHeight),
                             Text(
                               _weather?.weatherDescription ?? "",
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontSize: 12*textScaleFactor,
+                                fontSize: 15 * textScaleFactor,
                                 fontFamily: 'Outfit',
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                            SizedBox(height: 0.01*screenHeight),
+                            SizedBox(height: 0.01 * screenHeight),
                             Text(
                               "${_weather?.temperature?.celsius?.toStringAsFixed(0)}°",
                               style: TextStyle(
                                 color: Colors.blue,
-                                fontSize: 36*textScaleFactor,
+                                fontSize: 40 * textScaleFactor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 0.008*screenHeight),
+                            SizedBox(height: 0.008 * screenHeight),
                             Text(
                               "$time",
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontSize: 12*textScaleFactor,
+                                fontSize: 10 * textScaleFactor,
                               ),
                             ),
                           ],
@@ -474,12 +468,12 @@ class _HomepageState extends State<Homepage> {
 
   Widget _datetimeInfo() {
     DateTime now = _weather?.date ?? DateTime.now();
-    
+
     return Text(DateFormat("EEEE").format(now),
         style: TextStyle(
           color: Colors.black54,
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
+          fontSize: 22,
+          fontWeight: FontWeight.w800,
         ));
   }
 
@@ -493,55 +487,55 @@ class _HomepageState extends State<Homepage> {
       return Image.asset(
         'assets/weather_images/thunder_storm.png', // replace with your asset path
         width: screenWidth * 0.3,
-        height: screenHeight * 0.12,
+        height: screenHeight * 0.10,
       );
     } else if (code > 300 && code <= 500) {
       return Image.asset(
         'assets/weather_images/drizzling.png', // replace with your asset path
         width: screenWidth * 0.3,
-        height: screenHeight * 0.12,
+        height: screenHeight * 0.10,
       );
     } else if (code > 500 && code <= 600) {
       return Image.asset(
         'assets/weather_images/raining.png', // replace with your asset path
         width: screenWidth * 0.3,
-        height: screenHeight * 0.12,
+        height: screenHeight * 0.10,
       );
     } else if (code > 700 && code < 800) {
       return Image.asset(
         'assets/weather_images/mist.png', // replace with your asset path
         width: screenWidth * 0.3,
-        height: screenHeight * 0.12,
+        height: screenHeight * 0.10,
       );
     } else if (code == 800) {
       return Image.asset(
         'assets/weather_images/sunny.png', // replace with your asset path
         width: screenWidth * 0.3,
-        height: screenHeight * 0.12,
+        height: screenHeight * 0.10,
       );
     } else if (code > 800 && code <= 884) {
       return Image.asset(
         'assets/weather_images/cloudy.png', // replace with your asset path
         width: screenWidth * 0.3,
-        height: screenHeight * 0.12,
+        height: screenHeight * 0.10,
       );
     } else if (code == 800 && int.parse(_currentTime) > 18) {
       return Image.asset(
         'assets/weather_images/sunny.png', // replace with your asset path
         width: screenWidth * 0.3,
-        height: screenHeight * 0.12,
+        height: screenHeight * 0.10,
       );
     } else if (code > 800 && code <= 884 && int.parse(_currentTime) > 18) {
       return Image.asset(
         'assets/weather_images/cloudy.png', // replace with your asset path
         width: screenWidth * 0.3,
-        height: screenHeight * 0.12,
+        height: screenHeight * 0.10,
       );
     } else {
       return Image.asset(
         'assets/weather_images/cloudy.png', // replace with your asset path
         width: screenWidth * 0.3,
-        height: screenHeight * 0.12,
+        height: screenHeight * 0.10,
       );
     }
   }

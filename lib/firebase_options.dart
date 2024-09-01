@@ -53,6 +53,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '889487711594',
     projectId: 'smart-irrigation-fcb24',
     storageBucket: 'smart-irrigation-fcb24.appspot.com',
+    
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
