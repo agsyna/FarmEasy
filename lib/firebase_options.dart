@@ -45,6 +45,7 @@ class DefaultFirebaseOptions {
     projectId: 'smart-irrigation-fcb24',
     authDomain: 'smart-irrigation-fcb24.firebaseapp.com',
     storageBucket: 'smart-irrigation-fcb24.appspot.com',
+    databaseURL:'https://smart-irrigation-fcb24-default-rtdb.asia-southeast1.firebasedatabase.app'
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -53,6 +54,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '889487711594',
     projectId: 'smart-irrigation-fcb24',
     storageBucket: 'smart-irrigation-fcb24.appspot.com',
+    databaseURL:'https://smart-irrigation-fcb24-default-rtdb.asia-southeast1.firebasedatabase.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -62,6 +64,7 @@ class DefaultFirebaseOptions {
     projectId: 'smart-irrigation-fcb24',
     storageBucket: 'smart-irrigation-fcb24.appspot.com',
     iosBundleId: 'com.example.smartIrrigation',
+     databaseURL:'https://smart-irrigation-fcb24-default-rtdb.asia-southeast1.firebasedatabase.app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -71,6 +74,7 @@ class DefaultFirebaseOptions {
     projectId: 'smart-irrigation-fcb24',
     storageBucket: 'smart-irrigation-fcb24.appspot.com',
     iosBundleId: 'com.example.smartIrrigation',
+     databaseURL:'https://smart-irrigation-fcb24-default-rtdb.asia-southeast1.firebasedatabase.app',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
@@ -80,5 +84,6 @@ class DefaultFirebaseOptions {
     projectId: 'smart-irrigation-fcb24',
     authDomain: 'smart-irrigation-fcb24.firebaseapp.com',
     storageBucket: 'smart-irrigation-fcb24.appspot.com',
+     databaseURL:'https://smart-irrigation-fcb24-default-rtdb.asia-southeast1.firebasedatabase.app',
   );
 }

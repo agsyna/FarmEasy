@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_irrigation/const.dart';
+import 'package:smart_irrigation/soilinfo.dart';
 import 'package:weather/weather.dart';
 
 class Homepage extends StatefulWidget {
@@ -347,9 +348,9 @@ class _HomepageState extends State<Homepage> {
                             SizedBox(height: 0.01*screenHeight),
                             Row(
                               children: [
-                                weather_icon(
-                                  _weather!.weatherConditionCode!
-                                  ),
+                                // weather_icon(
+                                //   _weather!.weatherConditionCode!
+                                //   ),
                               ],
                             ),
                           ],
@@ -415,7 +416,10 @@ class _HomepageState extends State<Homepage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         customButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => const SoilInfo()));
+                            },
                             imagePath: "assets/icons/soilinfo.png",
                             buttonText: "Soil Info",
                             screenHeight: screenHeight,
