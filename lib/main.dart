@@ -120,14 +120,15 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
   void showSnackBar(BuildContext context, String text) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Directionality(
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Directionality(
           textDirection: TextDirection.ltr,
           child: Text(text),
-    ),
-    ),
-  );
-}
+        ),
+      ),
+    );
+  }
 }
