@@ -62,8 +62,7 @@ class _LoginState extends State<Login> {
       } else if (e.code == 'unknown') {
         return showSnackBar(context, 'Email Not Registered');
         //print(e.code);
-      } 
-      else if (e.code == 'invalid-email') {
+      } else if (e.code == 'invalid-email') {
         return showSnackBar(context, 'Please enter correct email address');
         //print(e.code);
       } else {
@@ -72,7 +71,7 @@ class _LoginState extends State<Login> {
       }
     }
 
-    Navigator.pop(context);
+    // Navigator.pop(context);
   }
 
   @override

@@ -1,11 +1,11 @@
 import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_irrigation/const.dart';
+import 'package:smart_irrigation/faqs.dart';
 import 'package:smart_irrigation/soilinfo.dart';
 import 'package:weather/weather.dart';
 
@@ -346,7 +346,18 @@ class _HomepageState extends State<Homepage> {
                             SizedBox(height: 0.01 * screenHeight),
                             Row(
                               children: [
-                                // weather_icon(_weather!.weatherConditionCode!),
+                                if (_weather != null)
+                                  weather_icon(
+                                    _weather!.weatherConditionCode!,
+                                  ),
+                                if (_weather == null)
+                                  Text(
+                                    "Loading weather...",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16 * textScaleFactor,
+                                    ),
+                                  )
                               ],
                             ),
                           ],
@@ -388,7 +399,7 @@ class _HomepageState extends State<Homepage> {
                               "$time",
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontSize: 10 * textScaleFactor,
+                                fontSize: 14 * textScaleFactor,
                               ),
                             ),
                           ],
@@ -411,7 +422,8 @@ class _HomepageState extends State<Homepage> {
                       children: [
                         customButton(
                             onPressed: () {
-                              Navigator.of(context).pushReplacement(
+                              Navigator.push(
+                                  context,
                                   MaterialPageRoute(
                                       builder: (BuildContext context) =>
                                           const SoilInfo()));
@@ -444,7 +456,12 @@ class _HomepageState extends State<Homepage> {
                             screenWidth: screenWidth,
                             textScaleFactor: textScaleFactor),
                         customButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FaqPage()));
+                            },
                             imagePath: "assets/icons/faqs.png",
                             buttonText: "FAQS",
                             screenHeight: screenHeight,

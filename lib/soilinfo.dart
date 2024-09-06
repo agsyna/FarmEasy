@@ -10,17 +10,6 @@ class SoilInfo extends StatefulWidget {
   State<SoilInfo> createState() => _SoilInfoState();
 }
 
-void showSnackBar(BuildContext context, String text) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Directionality(
-        textDirection: TextDirection.ltr,
-        child: Text(text),
-      ),
-    ),
-  );
-}
-
 void readData() {
   print("check1");
   DatabaseReference ref = FirebaseDatabase.instance.ref("users/123");
@@ -30,16 +19,6 @@ void readData() {
       print("check2");
       final data = event.snapshot.value as Map<dynamic, dynamic>;
       print("data : $data");
-
-      final heatIndex = data['heatindex']['value'];
-      final humidity = data['humidity']['value'];
-      final moisture = data['moisture']['value'];
-      final temp = data['temp']['value'];
-
-      print("Heat Index: $heatIndex");
-      print("Humidity: $humidity");
-      print("Moisture: $moisture");
-      print("Temperature: $temp");
     } else {
       print("No data available.");
     }
@@ -47,7 +26,7 @@ void readData() {
 }
 
 void writeData() async {
-  DatabaseReference ref = FirebaseDatabase.instance.ref("users/124");
+  DatabaseReference ref = FirebaseDatabase.instance.ref("users/123");
   print("check3");
 
   await ref.set({
@@ -56,12 +35,6 @@ void writeData() async {
     "mositure": 23,
     "temp": 45,
   });
-}
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(SoilInfo());
 }
 
 TextEditingController _soilinfo = TextEditingController();
@@ -227,8 +200,9 @@ class _SoilInfoState extends State<SoilInfo> {
                           ),
                           child: ElevatedButton(
                               onPressed: () {
-                                writeData();
+                                // writeData();
                                 readData();
+                                Navigator.pop(context);
                               },
                               style: ElevatedButton.styleFrom(
                                 // backgroundColor: Color.fromARGB(255, 48, 62, 35),
