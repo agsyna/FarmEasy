@@ -4,13 +4,43 @@ import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_irrigation/api/firebase_api.dart';
+import 'package:smart_irrigation/api/notificationservice.dart';
 import 'package:smart_irrigation/main_page.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import'package:timezone/timezone.dart' as tz;
+import'package:timezone/data/latest.dart' as tz;
+// import 'package:schedule_local_notification/notificationservice.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  NotificationService();
+  await FirebaseApi().initNotifications();
+
   runApp(const MyApp());
 }
+
+
+  Future<void> _showSoilNotification(double soilMoisture) async {
+    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+      'soil_channel_id',
+      'Soil Notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    const NotificationDetails notificationDetails = NotificationDetails(
+      android: androidDetails,
+    );
+
+    await notificationsPlugin.show(
+      0, // Notification ID
+      'Soil Moisture Alert', // Notification title
+      'Soil moisture is less than 25! Current level: $soilMoisture',
+      notificationDetails,
+    );
+  }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

@@ -47,6 +47,9 @@ dependencies:
   flutter_local_notifications:
   firebase_messaging:
   firebase_in_app_messaging:
+  timezone:
+  kommunicate_flutter: ^1.9.1
+  toggle_switch:
 
 dev_dependencies:
   flutter_test:
@@ -114,3 +117,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

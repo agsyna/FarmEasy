@@ -4,15 +4,18 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-class SoilInfo extends StatefulWidget {
-  const SoilInfo({super.key});
+class Irrigation extends StatefulWidget {
+  const Irrigation({super.key});
 
   @override
-  State<SoilInfo> createState() => _SoilInfoState();
+  State<Irrigation> createState() => _IrrigationState();
 }
 
 
-class _SoilInfoState extends State<SoilInfo> {
+int motor=0;
+
+
+class _IrrigationState extends State<Irrigation> {
   Map<String, dynamic>? soilData;
   bool isLoading = true; // Initially true to show the loading spinner
 
@@ -24,23 +27,12 @@ class _SoilInfoState extends State<SoilInfo> {
   }
 
   // Function to continuously listen for data changes from Firebase
-  void readData() {
+  Future<void> readData() async {
     DatabaseReference ref = FirebaseDatabase.instance.ref("users/123");
 
-    // Listen to data changes in real-time
-    ref.onValue.listen((DatabaseEvent event) {
-      if (event.snapshot.exists) {
-        final data = event.snapshot.value as Map<dynamic, dynamic>;
-        setState(() {
-          soilData = data.map((key, value) => MapEntry(key.toString(), value));
-          isLoading = false; // Data has been loaded, stop the loading spinner
-        });
-      } else {
-        setState(() {
-          soilData = null; // Set null if no data is available
-          isLoading = false;
-        });
-      }
+    await ref.update({
+      "motor": motor,
+      
     });
   }
 
@@ -57,7 +49,7 @@ class _SoilInfoState extends State<SoilInfo> {
           children: [
             SizedBox(height: screenHeight*0.005,),
 
-          Text('Soil Information',
+          Text('Irrigation',
         style:  TextStyle(
           fontFamily: "Mulish",
           fontSize: textScaleFactor*24
@@ -109,20 +101,6 @@ class _SoilInfoState extends State<SoilInfo> {
                     ],
                   ),
                 ),
-
-                SizedBox(
-                  height: screenHeight*0.1,
-                ),
-
-
-                ToggleSwitch(
-  initialLabelIndex: 0,
-  totalSwitches: 2,
-  labels: ['ON','OFF'],
-  onToggle: (motor) {
-    print('switched to: $motor');
-  },
-),
 
               // Show message if no data is available
               if (soilData == null && !isLoading)

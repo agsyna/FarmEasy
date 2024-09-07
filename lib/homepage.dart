@@ -390,7 +390,7 @@ class _HomepageState extends State<Homepage> {
                               "${_weather?.temperature?.celsius?.toStringAsFixed(0)}°",
                               style: TextStyle(
                                 color: Colors.blue,
-                                fontSize: 40 * textScaleFactor,
+                                fontSize: 32 * textScaleFactor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
