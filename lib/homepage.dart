@@ -20,6 +20,7 @@ class _HomepageState extends State<Homepage> {
   String _currentTime = "";
   final user = FirebaseAuth.instance.currentUser!;
   final WeatherFactory wf = WeatherFactory(API_KEY);
+  bool language = false;
   Weather? _weather;
   int hour = 0;
   int minute = 0;
@@ -138,7 +139,7 @@ class _HomepageState extends State<Homepage> {
                   width: 0.05 * screenWidth,
                 ),
                 Text(
-                  "Akash...",
+                  language?"Akash":"आकाश",
                   style: TextStyle(
                     fontFamily: "Outfit",
                     fontSize: textScaleFactor * 20,

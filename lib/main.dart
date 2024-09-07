@@ -8,10 +8,11 @@ import 'package:smart_irrigation/api/firebase_api.dart';
 import 'package:smart_irrigation/api/notificationservice.dart';
 import 'package:smart_irrigation/main_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import'package:timezone/timezone.dart' as tz;
-import'package:timezone/data/latest.dart' as tz;
-// import 'package:schedule_local_notification/notificationservice.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
+// import 'package:schedule_local_notification/notificationservice.dart';
+bool language = false;
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -21,26 +22,25 @@ Future main() async {
   runApp(const MyApp());
 }
 
+Future<void> _showSoilNotification(double soilMoisture) async {
+  const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    'soil_channel_id',
+    'Soil Notifications',
+    importance: Importance.max,
+    priority: Priority.high,
+  );
 
-  Future<void> _showSoilNotification(double soilMoisture) async {
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-      'soil_channel_id',
-      'Soil Notifications',
-      importance: Importance.max,
-      priority: Priority.high,
-    );
+  const NotificationDetails notificationDetails = NotificationDetails(
+    android: androidDetails,
+  );
 
-    const NotificationDetails notificationDetails = NotificationDetails(
-      android: androidDetails,
-    );
-
-    await notificationsPlugin.show(
-      0, // Notification ID
-      'Soil Moisture Alert', // Notification title
-      'Soil moisture is less than 25! Current level: $soilMoisture',
-      notificationDetails,
-    );
-  }
+  await notificationsPlugin.show(
+    0, // Notification ID
+    'Soil Moisture Alert', // Notification title
+    'Soil moisture is less than 25! Current level: $soilMoisture',
+    notificationDetails,
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -114,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: screenHeight * 0.2,
             ),
             Text(
-              "FARMEASY",
+              language?"FARMEASY":"फार्मेसी",
               style: TextStyle(
                 fontFamily: "Impact",
                 fontSize: textScaleFactor * 40,
@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Text(
-              "Farming Made Easy",
+              language?"Farming Made Easy":"खेती करना हुआ आसान",
               style: TextStyle(
                 fontFamily: "Mulish",
                 fontSize: textScaleFactor * 20,
