@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:smart_irrigation/faqs.dart';
+import 'package:smart_irrigation/homepage.dart';
+import 'package:smart_irrigation/main.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -124,7 +127,7 @@ class _LoginState extends State<Login> {
                         height: screenHeight * 0.1,
                       ),
                       Text(
-                        "FARMEASY",
+                        language==0?"FARMEASY":"फार्म ईज़ी",
                         style: TextStyle(
                           fontFamily: "Impact",
                           fontSize: textScaleFactor * 12,
@@ -143,7 +146,7 @@ class _LoginState extends State<Login> {
                             maxLength: 100,
                             controller: _emailController,
                             decoration: InputDecoration(
-                              labelText: "Email",
+                              labelText: language==0?"Email":"ईमेल",
                               labelStyle: TextStyle(
                                 color: Color.fromARGB(127, 75, 97, 79),
                                 fontSize: 19.0 * textScaleFactor,
@@ -187,7 +190,7 @@ class _LoginState extends State<Login> {
                           obscureText: true,
                           controller: _passwordController,
                           decoration: InputDecoration(
-                            labelText: "Password",
+                            labelText: language==0?"Password":"पासवर्ड",
                             labelStyle: TextStyle(
                               color: Color.fromARGB(127, 75, 97, 79),
                               fontSize: 19.0 * textScaleFactor,
@@ -243,7 +246,7 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                               child: Text(
-                                "Sign In",
+                                language==0?"Sign In":"प्रवेश करें",
                                 style: TextStyle(
                                   fontSize: textScaleFactor * 20,
                                   color: Color(0xffE3EBDE),

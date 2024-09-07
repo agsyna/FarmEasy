@@ -2,19 +2,21 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:smart_irrigation/faqs.dart';
+import 'package:smart_irrigation/homepage.dart';
+import 'package:smart_irrigation/main.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-class Irrigation extends StatefulWidget {
-  const Irrigation({super.key});
+class IrrigationPage extends StatefulWidget {
+  const IrrigationPage({super.key});
 
   @override
-  State<Irrigation> createState() => _IrrigationState();
+  State<IrrigationPage> createState() => _IrrigationPageState();
 }
 
-int motor = 0;
-bool language = false;
+int motor=0;
 
-class _IrrigationState extends State<Irrigation> {
+class _IrrigationPageState extends State<IrrigationPage> {
   Map<String, dynamic>? soilData;
   bool isLoading = true; // Initially true to show the loading spinner
 
@@ -26,11 +28,32 @@ class _IrrigationState extends State<Irrigation> {
   }
 
   // Function to continuously listen for data changes from Firebase
-  Future<void> readData() async {
+  void readData() {
     DatabaseReference ref = FirebaseDatabase.instance.ref("users/123");
 
-    await ref.update({
-      "motor": motor,
+    // Listen to data changes in real-time
+    ref.onValue.listen((DatabaseEvent event) {
+      if (event.snapshot.exists) {
+        final data = event.snapshot.value as Map<dynamic, dynamic>;
+        setState(() {
+          soilData = data.map((key, value) => MapEntry(key.toString(), value));
+          isLoading = false; // Data has been loaded, stop the loading spinner
+        });
+      } else {
+        setState(() {
+          soilData = null; // Set null if no data is available
+          isLoading = false;
+        });
+      }
+    });
+  }
+
+  void writeMotorData(int? a) async {
+    DatabaseReference ref = FirebaseDatabase.instance.ref("users/123/motor");
+
+    // Write only "motor" data to Firebase
+    await ref.set({
+      "motor": a, // Update this with the actual motor state (true/false)
     });
   }
 
@@ -48,7 +71,7 @@ class _IrrigationState extends State<Irrigation> {
               height: screenHeight * 0.005,
             ),
             Text(
-              language?"Irrigation":"सिंचाई",
+              language == 0 ? "Irrigation" : "सिंचाई",
               style: TextStyle(
                   fontFamily: "Mulish", fontSize: textScaleFactor * 24),
             ),
@@ -71,46 +94,37 @@ class _IrrigationState extends State<Irrigation> {
               height: screenHeight * 0.1,
             ),
             // Loading indicator while fetching data
-            if (isLoading) CircularProgressIndicator(),
 
-            // Show data in different boxes when available
-            if (soilData != null)
-              Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: Column(
-                  children: [
-                    // soilData!['temp']['value'].toString()
-                    _buildInfoBox(
-                        "Heat Index",
-                        soilData!['heatindex']['value'].toString(),
-                        screenWidth,
-                        textScaleFactor),
-                    SizedBox(height: screenHeight * 0.02),
-                    _buildInfoBox(
-                        "Humidity",
-                        soilData!['humidity']['value'].toString(),
-                        screenWidth,
-                        textScaleFactor),
-                    SizedBox(height: screenHeight * 0.02),
-                    _buildInfoBox(
-                        "Moisture",
-                        soilData!['moisture']['value'].toString(),
-                        screenWidth,
-                        textScaleFactor),
-                    SizedBox(height: screenHeight * 0.02),
-                    _buildInfoBox(
-                        "Temperature",
-                        soilData!['temp']['value'].toString(),
-                        screenWidth,
-                        textScaleFactor),
-                  ],
-                ),
-              ),
+            SizedBox(
+              height: screenHeight * 0.1,
+            ),
+
+            ToggleSwitch(
+              initialLabelIndex: 0,
+              totalSwitches: 2,
+              activeFgColor: Colors.white, // Active text color
+  inactiveFgColor: Colors.black, // Inactive text color
+  activeBgColor: [Colors.green], // Green for the active toggle
+  inactiveBgColor: Color(0xFFF5F5DC),
+              labels: [
+                language == 0 ? "OFF" : "बंद",
+                language == 0 ? "ON" : "चालू"
+                
+              ],
+              onToggle: (newmotor) {
+
+                setState(() {
+                  motor=newmotor!;
+                });
+                writeMotorData(motor);
+                print('switched to: $motor');
+              },
+            ),
 
             // Show message if no data is available
             if (soilData == null && !isLoading)
               Text(
-                language?"No data available":"कोई डेटा मौजूद नहीं",
+                language == 0 ? "No data available" : "कोई डेटा मौजूद नहीं",
                 style: TextStyle(
                   fontSize: textScaleFactor * 18,
                   color: Colors.red,
@@ -149,6 +163,10 @@ class _IrrigationState extends State<Irrigation> {
                 fontWeight: FontWeight.w700,
                 fontFamily: 'Mulish',
               ),
+            ),
+            LinearProgressIndicator(
+              value: 0.3,
+              semanticsLabel: 'Linear progress indicator',
             ),
           ],
         ),

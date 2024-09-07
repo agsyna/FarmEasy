@@ -2,6 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:smart_irrigation/faqs.dart';
+import 'package:smart_irrigation/homepage.dart';
+import 'package:smart_irrigation/homepage.dart';
+import 'package:smart_irrigation/main.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class SoilInfo extends StatefulWidget {
@@ -11,7 +15,6 @@ class SoilInfo extends StatefulWidget {
   State<SoilInfo> createState() => _SoilInfoState();
 }
 
-bool language = false;
 
 class _SoilInfoState extends State<SoilInfo> {
   Map<String, dynamic>? soilData;
@@ -44,6 +47,7 @@ class _SoilInfoState extends State<SoilInfo> {
       }
     });
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +63,7 @@ class _SoilInfoState extends State<SoilInfo> {
               height: screenHeight * 0.005,
             ),
             Text(
-              language?"Soil Information":"मिट्टी की जानकारी",
+              language==0?"Soil Information":"मिट्टी की जानकारी",
               style: TextStyle(
                   fontFamily: "Mulish", fontSize: textScaleFactor * 24),
             ),
@@ -92,28 +96,40 @@ class _SoilInfoState extends State<SoilInfo> {
                   children: [
                     // soilData!['temp']['value'].toString()
                     _buildInfoBox(
-                        "Heat Index",
+                        language==0?"Heat Index":"ताप सूचकांक",
                         soilData!['heatindex']['value'].toString(),
                         screenWidth,
-                        textScaleFactor),
+                        textScaleFactor,
+                        screenHeight
+                        ),
                     SizedBox(height: screenHeight * 0.02),
                     _buildInfoBox(
-                        "Humidity",
+                        language==0?"Humidity":"हवा की नमी",
                         soilData!['humidity']['value'].toString(),
                         screenWidth,
-                        textScaleFactor),
+                        textScaleFactor,
+                        screenHeight),
                     SizedBox(height: screenHeight * 0.02),
                     _buildInfoBox(
-                        "Moisture",
+                        language==0?"Moisture":"मिट्टी की नमी",
                         soilData!['moisture']['value'].toString(),
                         screenWidth,
-                        textScaleFactor),
+                        textScaleFactor,
+                        screenHeight),
                     SizedBox(height: screenHeight * 0.02),
                     _buildInfoBox(
-                        "Temperature",
+                        language==0?"Temperature":"तापमान",
                         soilData!['temp']['value'].toString(),
                         screenWidth,
-                        textScaleFactor),
+                        textScaleFactor,
+                        screenHeight),
+                        SizedBox(height: screenHeight * 0.02),
+                        _buildInfoBox(
+                        language==0?"Rain":"बारिश",
+                        soilData!['rain']['value'].toString(),
+                        screenWidth,
+                        textScaleFactor,
+                        screenHeight),
                   ],
                 ),
               ),
@@ -122,19 +138,10 @@ class _SoilInfoState extends State<SoilInfo> {
               height: screenHeight * 0.1,
             ),
 
-            ToggleSwitch(
-              initialLabelIndex: 0,
-              totalSwitches: 2,
-              labels: [language?"ON":"चालू", language?"OFF":"बंद"],
-              onToggle: (motor) {
-                print('switched to: $motor');
-              },
-            ),
-
             // Show message if no data is available
             if (soilData == null && !isLoading)
               Text(
-                language?"No data available":"कोई डेटा मौजूद नहीं",
+                language==0?"No data available":"कोई डेटा मौजूद नहीं",
                 style: TextStyle(
                   fontSize: textScaleFactor * 18,
                   color: Colors.red,
@@ -147,7 +154,7 @@ class _SoilInfoState extends State<SoilInfo> {
   }
 
   Widget _buildInfoBox(
-      String title, String value, double width, double textScaleFactor) {
+      String title, String value, double width, double textScaleFactor, double screenHeight) {
     if (value != null) {
       return Container(
         width: width * 0.8,
@@ -167,12 +174,19 @@ class _SoilInfoState extends State<SoilInfo> {
               ),
             ),
             Text(
-              value,
+              value=="0"?(language==0?"No":"नहीं"):value,
               style: TextStyle(
                 fontSize: 12 * textScaleFactor,
                 fontWeight: FontWeight.w700,
                 fontFamily: 'Mulish',
               ),
+            ),
+            LinearProgressIndicator(
+              value: double.parse(value)/100,
+              semanticsLabel: 'Linear progress indicator',
+              color: (double.parse(value)/100)<0.25?Colors.red:(double.parse(value)/100<0.5? Colors.yellow:Colors.green),
+              minHeight: 0.02*screenHeight,
+
             ),
           ],
         ),

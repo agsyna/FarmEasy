@@ -4,9 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:kommunicate_flutter/kommunicate_flutter.dart';
+import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 import 'package:smart_irrigation/const.dart';
 import 'package:smart_irrigation/faqs.dart';
+import 'package:smart_irrigation/irrigation.dart';
+import 'package:smart_irrigation/main.dart';
+import 'package:smart_irrigation/profile.dart';
+import 'package:smart_irrigation/setting.dart';
 import 'package:smart_irrigation/soilinfo.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 import 'package:weather/weather.dart';
 
 class Homepage extends StatefulWidget {
@@ -16,11 +23,12 @@ class Homepage extends StatefulWidget {
   State<Homepage> createState() => _HomepageState();
 }
 
+
+
 class _HomepageState extends State<Homepage> {
   String _currentTime = "";
   final user = FirebaseAuth.instance.currentUser!;
   final WeatherFactory wf = WeatherFactory(API_KEY);
-  bool language = false;
   Weather? _weather;
   int hour = 0;
   int minute = 0;
@@ -139,7 +147,7 @@ class _HomepageState extends State<Homepage> {
                   width: 0.05 * screenWidth,
                 ),
                 Text(
-                  language?"Akash":"आकाश",
+                  language==0? "Akash" : "आकाश",
                   style: TextStyle(
                     fontFamily: "Outfit",
                     fontSize: textScaleFactor * 20,
@@ -164,7 +172,7 @@ class _HomepageState extends State<Homepage> {
                 color: Colors.green[300],
               ),
               title: Text(
-                'Home',
+                language==0? 'Home' : "मुखपृष्ठ",
                 style: TextStyle(
                   fontFamily: "Outfit",
                   fontSize: textScaleFactor * 16,
@@ -183,7 +191,7 @@ class _HomepageState extends State<Homepage> {
                 color: Colors.green[300],
               ),
               title: Text(
-                'Profile',
+                language==0? 'Profile' : "आपके बारे में",
                 style: TextStyle(
                   fontFamily: "Outfit",
                   fontSize: textScaleFactor * 16,
@@ -192,6 +200,8 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
               onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
                 // Handle navigation to Profile
               },
             ),
@@ -202,7 +212,7 @@ class _HomepageState extends State<Homepage> {
                 color: Colors.green[300],
               ),
               title: Text(
-                'Settings',
+                language==0? 'Settings' : "समायोजन",
                 style: TextStyle(
                   fontFamily: "Outfit",
                   fontSize: textScaleFactor * 16,
@@ -211,6 +221,8 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
               onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingsPage()));
                 // Handle navigation to Settings
               },
             ),
@@ -221,7 +233,7 @@ class _HomepageState extends State<Homepage> {
                 color: Colors.green[300],
               ),
               title: Text(
-                'Logout',
+                language==0? 'Logout' : "बहार निकले",
                 style: TextStyle(
                   fontFamily: "Outfit",
                   fontSize: textScaleFactor * 16,
@@ -272,18 +284,30 @@ class _HomepageState extends State<Homepage> {
                   ),
                 ),
                 SizedBox(
-                  width: 0.68 * screenWidth,
+                  width: 0.4 * screenWidth,
                 ),
-                IconButton(
-                  onPressed: okay,
-                  iconSize: textScaleFactor * 16,
-                  icon: Image.asset(
-                    "assets/icons/notification.png",
-                    height: screenWidth * 0.1,
-                    fit: BoxFit.cover,
-                  ),
-                  color: Color(0xff79B343),
-                ),
+                ToggleSwitch(
+                  minWidth: screenWidth*0.18,
+                  minHeight: screenHeight*0.04,
+              initialLabelIndex: 0,
+              totalSwitches: 2,
+              labels: ["English","हिंदी"],
+              // activeFgColor: Colors.green[200],
+              // inactiveFgColor: Colors.grey,
+              
+      activeFgColor: Colors.white, // Active text color
+  inactiveFgColor: Colors.black, // Inactive text color
+  activeBgColor: [Colors.green], // Green for the active toggle
+  inactiveBgColor: Color(0xFFF5F5DC),
+
+              onToggle: (newlanguage) {
+                print('switched to: $language');
+                setState(() {
+                  language = newlanguage!;
+                });
+                
+              },
+            ),
               ],
             ),
             SizedBox(
@@ -322,7 +346,7 @@ class _HomepageState extends State<Homepage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'WEATHER STATION',
+                              language==0? 'WEATHER STATION' : "मौसम विभाग",
                               style: TextStyle(
                                 color: Color(0xFF7A7B7A),
                                 fontWeight: FontWeight.bold,
@@ -337,7 +361,7 @@ class _HomepageState extends State<Homepage> {
                             //       fontSize: 16,
                             //     )),
                             // _location(),
-                            Text("Gurugram",
+                            Text(language==0? "Gurugram" : "गुरूग्राम",
                                 style: TextStyle(
                                   color: Color(0xFF515251),
                                   fontSize: 18 * textScaleFactor,
@@ -353,7 +377,9 @@ class _HomepageState extends State<Homepage> {
                                   ),
                                 if (_weather == null)
                                   Text(
-                                    "Loading weather...",
+                                    language==0
+                                        ? "Loading weather..."
+                                        : "मौसम लोड हो रहा है...",
                                     style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 16 * textScaleFactor,
@@ -430,14 +456,35 @@ class _HomepageState extends State<Homepage> {
                                           const SoilInfo()));
                             },
                             imagePath: "assets/icons/soilinfo.png",
-                            buttonText: "Soil Info",
+                            buttonText:
+                                language==0? "Soil Info" : "मिट्टी की जानकारी",
                             screenHeight: screenHeight,
                             screenWidth: screenWidth,
                             textScaleFactor: textScaleFactor),
                         customButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              try {
+                                dynamic conversationObject = {
+                                  'appId':
+                                      '25033bf7c73423981075770d5e2ba704a', // Obtain your App ID from Kommunicate dashboard
+                                };
+
+                                KommunicateFlutterPlugin.buildConversation(
+                                        conversationObject)
+                                    .then((clientConversationId) {
+                                  print("Conversation builder success : " +
+                                      clientConversationId.toString());
+                                }).catchError((error) {
+                                  print(
+                                      "Conversation builder error occurred : " +
+                                          error.toString());
+                                });
+                              } catch (e) {
+                                print("Error: " + e.toString());
+                              }
+                            },
                             imagePath: "assets/icons/kakaji.png",
-                            buttonText: "Kaka Ji",
+                            buttonText: language==0? "Kaka Ji" : "काका जी",
                             screenHeight: screenHeight,
                             screenWidth: screenWidth,
                             textScaleFactor: textScaleFactor),
@@ -450,9 +497,14 @@ class _HomepageState extends State<Homepage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         customButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => IrrigationPage()));
+                            },
                             imagePath: "assets/icons/irrigation.png",
-                            buttonText: "Irrigation",
+                            buttonText: language==0? "Irrigation" : "सिंचाई",
                             screenHeight: screenHeight,
                             screenWidth: screenWidth,
                             textScaleFactor: textScaleFactor),
@@ -464,7 +516,8 @@ class _HomepageState extends State<Homepage> {
                                       builder: (context) => FaqPage()));
                             },
                             imagePath: "assets/icons/faqs.png",
-                            buttonText: "FAQS",
+                            buttonText:
+                                language==0? "FAQS" : "सामान्य प्रश्नोत्तर",
                             screenHeight: screenHeight,
                             screenWidth: screenWidth,
                             textScaleFactor: textScaleFactor),

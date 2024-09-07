@@ -6,13 +6,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_irrigation/api/firebase_api.dart';
 import 'package:smart_irrigation/api/notificationservice.dart';
+import 'package:smart_irrigation/homepage.dart';
 import 'package:smart_irrigation/main_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:smart_irrigation/soilinfo.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 // import 'package:schedule_local_notification/notificationservice.dart';
-bool language = false;
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -21,6 +22,8 @@ Future main() async {
 
   runApp(const MyApp());
 }
+
+  int language=1;
 
 Future<void> _showSoilNotification(double soilMoisture) async {
   const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
@@ -88,6 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double textScaleFactor = ScaleSize.textScaleFactor(context);
+  
 
     return Scaffold(
       body: Container(
@@ -114,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: screenHeight * 0.2,
             ),
             Text(
-              language?"FARMEASY":"फार्मेसी",
+              language==0?"FARMEASY":"फार्म ईज़ी",
               style: TextStyle(
                 fontFamily: "Impact",
                 fontSize: textScaleFactor * 40,
@@ -124,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Text(
-              language?"Farming Made Easy":"खेती करना हुआ आसान",
+              language==0?"Farming Made Easy":"खेती करना हुआ आसान",
               style: TextStyle(
                 fontFamily: "Mulish",
                 fontSize: textScaleFactor * 20,
