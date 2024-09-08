@@ -1,9 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:smart_irrigation/faqs.dart';
-import 'package:smart_irrigation/homepage.dart';
 import 'package:smart_irrigation/main.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -52,7 +49,7 @@ class _IrrigationPageState extends State<IrrigationPage> {
     DatabaseReference ref = FirebaseDatabase.instance.ref("users/123/motor");
 
     // Write only "motor" data to Firebase
-    await ref.set({
+    await ref.update({
       "motor": a, // Update this with the actual motor state (true/false)
     });
   }
@@ -84,8 +81,11 @@ class _IrrigationPageState extends State<IrrigationPage> {
         height: screenHeight,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/soilinfo.png"),
+            image: AssetImage("assets/images/soilinfo.png",
+            ),
+            fit:BoxFit.cover,
           ),
+          
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

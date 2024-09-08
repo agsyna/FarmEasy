@@ -1,15 +1,11 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_irrigation/api/firebase_api.dart';
 import 'package:smart_irrigation/api/notificationservice.dart';
-import 'package:smart_irrigation/homepage.dart';
 import 'package:smart_irrigation/main_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:smart_irrigation/soilinfo.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 

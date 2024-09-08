@@ -1,13 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:smart_irrigation/faqs.dart';
-import 'package:smart_irrigation/homepage.dart';
-import 'package:smart_irrigation/homepage.dart';
 import 'package:smart_irrigation/main.dart';
-import 'package:toggle_switch/toggle_switch.dart';
-
 class SoilInfo extends StatefulWidget {
   const SoilInfo({super.key});
 
@@ -77,6 +71,7 @@ class _SoilInfoState extends State<SoilInfo> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/soilinfo.png"),
+            fit:BoxFit.cover,
           ),
         ),
         child: Column(
@@ -174,7 +169,7 @@ class _SoilInfoState extends State<SoilInfo> {
               ),
             ),
             Text(
-              value=="0"?(language==0?"No":"नहीं"):value,
+              value=="0"?(language==0?"No":"नहीं"):(value==1?(language==0?"Yes":"हाँ"):value),
               style: TextStyle(
                 fontSize: 12 * textScaleFactor,
                 fontWeight: FontWeight.w700,

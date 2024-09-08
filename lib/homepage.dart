@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:kommunicate_flutter/kommunicate_flutter.dart';
-import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 import 'package:smart_irrigation/const.dart';
 import 'package:smart_irrigation/faqs.dart';
 import 'package:smart_irrigation/irrigation.dart';
