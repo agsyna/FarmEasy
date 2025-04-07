@@ -28,9 +28,8 @@ if (flutterVersionName == null) {
 }
 
 android {
-    compileSdkVersion 34
     namespace = "com.sih_proj.smart_irri"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -47,6 +46,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
